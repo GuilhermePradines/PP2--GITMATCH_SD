@@ -31,7 +31,7 @@ public class SecurityConfig {
                 
                 // Mantém essas rotas públicas, como você já tinha
                 .requestMatchers("/usuario/register", "/usuario/login", "/usuario/verificar-codigo", "/usuario/redefinir-senha"
-                ,"/api/oauth/github/callback", "/api/oauth/github/login","/candidaturas/usuario/{idUsuario}").permitAll()
+                ,"/api/oauth/github/callback", "/api/oauth/github/login","/candidaturas/usuario/{idUsuario}","/{id}/status").permitAll()
 
                 // O resto requer autenticação
                 .anyRequest().authenticated()

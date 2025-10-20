@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+
 import org.springframework.http.*;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
@@ -39,9 +41,7 @@ import java.util.Set;
 
 import java.util.stream.Collectors;
 
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -210,4 +210,40 @@ public ResponseEntity<byte[]> gerarPdfCandidaturas(@PathVariable Long idUsuario)
 }
 
 
+
+@PutMapping("/{id}/status")
+@Transactional
+public ResponseEntity<String> atualizarStatus(
+        @PathVariable Long id,
+        @RequestBody Map<String, Object> body) {
+
+    Object statusObj = body.get("status");
+    if (statusObj == null) {
+        return ResponseEntity.badRequest().body("Campo 'status' é obrigatório no corpo da requisição.");
+    }
+
+    String status = statusObj.toString();
+
+    String sql = "UPDATE candidaturas SET aprovad_boolean = :status WHERE id_candidatura = :id";
+    Query query = entityManager.createNativeQuery(sql);
+    query.setParameter("status", status);
+    query.setParameter("id", id);
+
+    int linhasAfetadas = query.executeUpdate();
+
+    if (linhasAfetadas > 0) {
+        return ResponseEntity.ok("Status da candidatura atualizado com sucesso!");
+    } else {
+        return ResponseEntity.badRequest().body("Candidatura não encontrada.");
+    }
 }
+
+
+
+
+
+}
+
+
+
+

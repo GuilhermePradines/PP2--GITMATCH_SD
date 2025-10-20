@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-GitmatchApiApplication<br.com.gitmatch-gitmatch-api>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "br.com.gitmatch.gitmatch.GitmatchApiApplication",
+            "projectName": "br.com.gitmatch-gitmatch-api",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
